@@ -1,0 +1,67 @@
+# Arquivos de log e temporários
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Pastas e arquivos de configuração de IDEs
+# Eclipse
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
+/Servers/
+.project
+.classpath
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Visual Studio Code
+.vscode/
+
+# Ferramentas de análise de código
+.sonarlint/
+
+# --- Backend (Java/Maven) ---
+# Ignora a pasta 'target' ESPECIFICAMENTE dentro do backend
+/backend/target/
+
+# Ignora arquivos compilados do Java
+*.class
+
+# Ignora arquivos de pacotes Java
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Arquivos de crash da JVM
+hs_err_pid*
+
+
+# --- Frontend (Node.js/JavaScript) ---
+# Ignora a pasta de dependências do Node.js
+node_modules/
+/frontend/node_modules/
+
+# Ignora pastas de build comuns de frameworks JS (React, Angular, Vue, etc.)
+/frontend/dist/
+/frontend/build/
+/frontend/.out/
+/frontend/.next/
+
+# Arquivos de ambiente - NUNCA versione senhas ou chaves de API!
+.env
+.env.local
+.env.*.local
