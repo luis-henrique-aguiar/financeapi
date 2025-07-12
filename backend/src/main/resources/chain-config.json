@@ -1,0 +1,5 @@
+{
+  "handlers": [
+    "io.github.luishenriqueaguiar.financeapi.controller.handler.CreateTransactionHandler"
+  ]
+}
