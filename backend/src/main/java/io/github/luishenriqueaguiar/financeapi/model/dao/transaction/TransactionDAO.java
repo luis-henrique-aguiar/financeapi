@@ -10,4 +10,8 @@ public interface TransactionDAO {
     
     List<Transaction> findAll() throws Exception;
     
+    Transaction findById(int id) throws Exception;
+    
+    boolean deleteById(int id) throws Exception;
+    
 }

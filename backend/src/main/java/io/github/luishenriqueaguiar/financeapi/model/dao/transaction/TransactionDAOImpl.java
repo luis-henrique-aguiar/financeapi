@@ -65,4 +65,44 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
         return transactions;
     }
+    
+    @Override
+    public Transaction findById(int id) throws Exception {
+        String sql = "SELECT * FROM transactions WHERE id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Transaction transaction = new Transaction();
+                    transaction.setId(rs.getInt("id"));
+                    transaction.setDescription(rs.getString("description"));
+                    transaction.setValue(rs.getBigDecimal("value"));
+                    transaction.setType(rs.getString("type"));
+                    transaction.setCategory(rs.getString("category"));
+                    transaction.setTransactionDate(rs.getDate("transaction_date").toLocalDate());
+                    return transaction;
+                }
+            }
+        }
+        return null;
+    }
+    
+    @Override
+    public boolean deleteById(int id) throws Exception {
+        String sql = "DELETE FROM transactions WHERE id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            int rowsAffected = stmt.executeUpdate();
+
+            return rowsAffected > 0;
+        }
+    }
 }
