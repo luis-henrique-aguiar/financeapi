@@ -43,24 +43,56 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
     
     @Override
-    public List<Transaction> findAll() throws Exception {
+    public List<Transaction> findAll(String type, String category, Integer year, Integer month) throws Exception {
         List<Transaction> transactions = new ArrayList<>();
-        String sql = "SELECT * FROM transactions";
+
+        StringBuilder sql = new StringBuilder("SELECT * FROM transactions");
+        List<String> conditions = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
+
+        if (type != null && !type.trim().isEmpty()) {
+            conditions.add("type = ?");
+            params.add(type);
+        }
+
+        if (category != null && !category.trim().isEmpty()) {
+            conditions.add("category = ?");
+            params.add(category);
+        }
+
+        if (year != null) {
+            conditions.add("YEAR(transaction_date) = ?");
+            params.add(year);
+        }
+
+        if (month != null) {
+            conditions.add("MONTH(transaction_date) = ?");
+            params.add(month);
+        }
+
+        if (!conditions.isEmpty()) {
+            sql.append(" WHERE ").append(String.join(" AND ", conditions));
+        }
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
 
-            while (rs.next()) {
-                Transaction transaction = new Transaction();
-                transaction.setId(rs.getInt("id"));
-                transaction.setDescription(rs.getString("description"));
-                transaction.setValue(rs.getBigDecimal("value"));
-                transaction.setType(rs.getString("type"));
-                transaction.setCategory(rs.getString("category"));
-                transaction.setTransactionDate(rs.getDate("transaction_date").toLocalDate());
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
 
-                transactions.add(transaction);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Transaction transaction = new Transaction();
+                    transaction.setId(rs.getInt("id"));
+                    transaction.setDescription(rs.getString("description"));
+                    transaction.setValue(rs.getBigDecimal("value"));
+                    transaction.setType(rs.getString("type"));
+                    transaction.setCategory(rs.getString("category"));
+                    transaction.setTransactionDate(rs.getDate("transaction_date").toLocalDate());
+
+                    transactions.add(transaction);
+                }
             }
         }
         return transactions;

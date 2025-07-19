@@ -16,10 +16,26 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class ListTransactionsCommand implements Command {
 
-    @Override
+	@Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String type = request.getParameter("type");
+        String category = request.getParameter("category");
+
+        String yearStr = request.getParameter("year");
+        String monthStr = request.getParameter("month");
+
+        Integer year = null;
+        if (yearStr != null && !yearStr.trim().isEmpty()) {
+            year = Integer.parseInt(yearStr);
+        }
+
+        Integer month = null;
+        if (monthStr != null && !monthStr.trim().isEmpty()) {
+            month = Integer.parseInt(monthStr);
+        }
+
         TransactionDAO dao = new TransactionDAOImpl();
-        List<Transaction> transactions = dao.findAll();
+        List<Transaction> transactions = dao.findAll(type, category, year, month);
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
