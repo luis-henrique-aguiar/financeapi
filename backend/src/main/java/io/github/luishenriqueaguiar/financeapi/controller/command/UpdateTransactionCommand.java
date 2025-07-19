@@ -1,6 +1,6 @@
 package io.github.luishenriqueaguiar.financeapi.controller.command;
 
-import java.io.PrintWriter;
+import java.io.BufferedReader;
 import java.time.LocalDate;
 
 import com.google.gson.Gson;
@@ -13,31 +13,26 @@ import io.github.luishenriqueaguiar.financeapi.utils.LocalDateAdapter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class FindTransactionByIdCommand implements Command {
+public class UpdateTransactionCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String pathInfo = request.getPathInfo(); 
-        String idStr = pathInfo.substring(1); 
-        int id = Integer.parseInt(idStr);
+        String pathInfo = request.getPathInfo();
+        int id = Integer.parseInt(pathInfo.substring(1));
+
+        BufferedReader reader = request.getReader();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+        
+        Transaction transaction = gson.fromJson(reader, Transaction.class);
+        transaction.setId(id);
 
         TransactionDAO dao = new TransactionDAOImpl();
-        Transaction transaction = dao.findById(id);
+        boolean updated = dao.update(transaction);
 
-        if (transaction != null) {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                    .setPrettyPrinting()
-                    .create();
-            
-            String jsonResponse = gson.toJson(transaction);
+        if (updated) {
             response.setStatus(HttpServletResponse.SC_OK);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-
-            PrintWriter out = response.getWriter();
-            out.print(jsonResponse);
-            out.flush();
         } else {
         	response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }

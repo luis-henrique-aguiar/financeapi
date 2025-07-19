@@ -105,4 +105,23 @@ public class TransactionDAOImpl implements TransactionDAO {
             return rowsAffected > 0;
         }
     }
+    
+    @Override
+    public boolean update(Transaction transaction) throws Exception {
+        String sql = "UPDATE transactions SET description = ?, value = ?, type = ?, category = ?, transaction_date = ? WHERE id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, transaction.getDescription());
+            stmt.setBigDecimal(2, transaction.getValue());
+            stmt.setString(3, transaction.getType());
+            stmt.setString(4, transaction.getCategory());
+            stmt.setDate(5, Date.valueOf(transaction.getTransactionDate()));
+            stmt.setInt(6, transaction.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
 }

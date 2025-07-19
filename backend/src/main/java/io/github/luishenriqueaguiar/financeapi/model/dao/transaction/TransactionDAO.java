@@ -14,4 +14,5 @@ public interface TransactionDAO {
     
     boolean deleteById(int id) throws Exception;
     
+    boolean update(Transaction transaction) throws Exception;
 }

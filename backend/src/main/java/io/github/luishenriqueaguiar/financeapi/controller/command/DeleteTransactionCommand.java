@@ -19,7 +19,7 @@ public class DeleteTransactionCommand implements Command {
         if (deleted) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Transaction not found to delete");
+        	response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
 }

@@ -2,6 +2,7 @@
 	"handlers": [
 		"io.github.luishenriqueaguiar.financeapi.controller.handler.FindTransactionByIdHandler",
 		"io.github.luishenriqueaguiar.financeapi.controller.handler.DeleteTransactionHandler",
+		"io.github.luishenriqueaguiar.financeapi.controller.handler.UpdateTransactionHandler",
 		"io.github.luishenriqueaguiar.financeapi.controller.handler.ListTransactionsHandler",
 		"io.github.luishenriqueaguiar.financeapi.controller.handler.CreateTransactionHandler"
 	]
