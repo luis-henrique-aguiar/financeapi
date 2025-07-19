@@ -2,6 +2,7 @@ package io.github.luishenriqueaguiar.financeapi.model.dao.transaction;
 
 import java.util.List;
 
+import io.github.luishenriqueaguiar.financeapi.dtos.FinancialSummaryDTO;
 import io.github.luishenriqueaguiar.financeapi.model.entity.Transaction;
 
 public interface TransactionDAO {
@@ -15,4 +16,6 @@ public interface TransactionDAO {
     boolean deleteById(int id) throws Exception;
     
     boolean update(Transaction transaction) throws Exception;
+    
+    FinancialSummaryDTO getFinancialSummary() throws Exception;
 }

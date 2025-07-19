@@ -1,15 +1,19 @@
 package io.github.luishenriqueaguiar.financeapi.model.dao.transaction;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import io.github.luishenriqueaguiar.financeapi.dtos.FinancialSummaryDTO;
 import io.github.luishenriqueaguiar.financeapi.model.entity.Transaction;
 
 public class TransactionDAOImpl implements TransactionDAO {
@@ -165,5 +169,51 @@ public class TransactionDAOImpl implements TransactionDAO {
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         }
+    }
+    
+    @Override
+    public FinancialSummaryDTO getFinancialSummary() throws Exception {
+        FinancialSummaryDTO summary = new FinancialSummaryDTO();
+        String revenueSql = "SELECT SUM(value) as total FROM transactions WHERE type = 'REVENUE'";
+        String expenseSql = "SELECT SUM(value) as total FROM transactions WHERE type = 'EXPENSE'";
+        String expenseByCategorySql = "SELECT category, SUM(value) as total FROM transactions WHERE type = 'EXPENSE' GROUP BY category";
+
+        try (Connection conn = dataSource.getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(revenueSql);
+                 ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    summary.setTotalRevenue(rs.getBigDecimal("total"));
+                }
+            }
+
+            if (summary.getTotalRevenue() == null) {
+                summary.setTotalRevenue(BigDecimal.ZERO);
+            }
+
+            try (PreparedStatement stmt = conn.prepareStatement(expenseSql);
+                 ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    summary.setTotalExpense(rs.getBigDecimal("total"));
+                }
+            }
+
+            if (summary.getTotalExpense() == null) {
+                summary.setTotalExpense(BigDecimal.ZERO);
+            }
+
+            summary.setCurrentBalance(summary.getTotalRevenue().subtract(summary.getTotalExpense()));
+
+
+            Map<String, BigDecimal> expensesByCategory = new HashMap<>();
+            try (PreparedStatement stmt = conn.prepareStatement(expenseByCategorySql);
+                 ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    expensesByCategory.put(rs.getString("category"), rs.getBigDecimal("total"));
+                }
+            }
+            summary.setExpensesByCategory(expensesByCategory);
+        }
+        
+        return summary;
     }
 }
