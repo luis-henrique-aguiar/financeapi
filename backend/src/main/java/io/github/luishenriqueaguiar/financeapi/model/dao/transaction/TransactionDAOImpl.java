@@ -43,7 +43,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
     
     @Override
-    public List<Transaction> findAll(String type, String category, Integer year, Integer month) throws Exception {
+    public List<Transaction> findAll(String type, String category, Integer year, Integer month, Integer limit, Integer offset) throws Exception {
         List<Transaction> transactions = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("SELECT * FROM transactions");
@@ -72,6 +72,16 @@ public class TransactionDAOImpl implements TransactionDAO {
 
         if (!conditions.isEmpty()) {
             sql.append(" WHERE ").append(String.join(" AND ", conditions));
+        }
+        
+        if (limit != null) {
+            sql.append(" LIMIT ?");
+            params.add(limit);
+        }
+
+        if (offset != null) {
+            sql.append(" OFFSET ?");
+            params.add(offset);
         }
 
         try (Connection conn = dataSource.getConnection();

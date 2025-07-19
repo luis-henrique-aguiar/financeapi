@@ -24,6 +24,13 @@ public class ListTransactionsCommand implements Command {
         String yearStr = request.getParameter("year");
         String monthStr = request.getParameter("month");
 
+        String limitStr = request.getParameter("limit");
+        String pageStr = request.getParameter("page");
+
+        int limit = (limitStr != null && !limitStr.trim().isEmpty()) ? Integer.parseInt(limitStr) : 10;
+        int page = (pageStr != null && !pageStr.trim().isEmpty()) ? Integer.parseInt(pageStr) : 1;
+        int offset = (page - 1) * limit;
+        
         Integer year = null;
         if (yearStr != null && !yearStr.trim().isEmpty()) {
             year = Integer.parseInt(yearStr);
@@ -35,7 +42,7 @@ public class ListTransactionsCommand implements Command {
         }
 
         TransactionDAO dao = new TransactionDAOImpl();
-        List<Transaction> transactions = dao.findAll(type, category, year, month);
+        List<Transaction> transactions = dao.findAll(type, category, year, month, limit, offset);
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())

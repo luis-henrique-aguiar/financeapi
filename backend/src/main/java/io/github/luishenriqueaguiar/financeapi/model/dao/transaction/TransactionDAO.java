@@ -8,7 +8,7 @@ public interface TransactionDAO {
 
     void create(Transaction transaction) throws Exception;
     
-    List<Transaction> findAll(String type, String category, Integer year, Integer month) throws Exception;
+    List<Transaction> findAll(String type, String category, Integer year, Integer month, Integer limit, Integer offset) throws Exception;
     
     Transaction findById(int id) throws Exception;
     
