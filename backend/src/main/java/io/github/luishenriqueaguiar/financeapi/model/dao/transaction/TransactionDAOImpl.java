@@ -78,6 +78,8 @@ public class TransactionDAOImpl implements TransactionDAO {
             sql.append(" WHERE ").append(String.join(" AND ", conditions));
         }
         
+        sql.append(" ORDER BY transaction_date DESC");
+        
         if (limit != null) {
             sql.append(" LIMIT ?");
             params.add(limit);
@@ -87,7 +89,7 @@ public class TransactionDAOImpl implements TransactionDAO {
             sql.append(" OFFSET ?");
             params.add(offset);
         }
-
+        
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
 
