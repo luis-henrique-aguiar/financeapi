@@ -1,0 +1,66 @@
+DROP DATABASE IF EXISTS myfinancedb;
+
+CREATE DATABASE myfinancedb;
+
+USE myfinancedb;
+
+CREATE TABLE transactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(255) NOT NULL,
+    value DECIMAL(10, 2) NOT NULL,
+    type ENUM('REVENUE', 'EXPENSE') NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    transaction_date DATE NOT NULL
+);
+
+INSERT INTO transactions (description, value, type, category, transaction_date) VALUES
+('Salário mensal', 7200.00, 'REVENUE', 'Salário', '2025-07-05'),
+('Aluguel', 2100.00, 'EXPENSE', 'Moradia', '2025-07-06'),
+('Supermercado', 850.25, 'EXPENSE', 'Alimentação', '2025-07-07'),
+('Projeto Freelance X', 2500.00, 'REVENUE', 'Freelance', '2025-07-10'),
+('Conta de Internet', 129.90, 'EXPENSE', 'Contas', '2025-07-12'),
+('Jantar com amigos', 280.00, 'EXPENSE', 'Lazer', '2025-07-14'),
+('Gasolina', 200.00, 'EXPENSE', 'Transporte', '2025-07-15'),
+('Salário mensal', 7200.00, 'REVENUE', 'Salário', '2025-06-05'),
+('Aluguel', 2100.00, 'EXPENSE', 'Moradia', '2025-06-06'),
+('Farmácia', 150.75, 'EXPENSE', 'Saúde', '2025-06-08'),
+('Rendimento de Ações', 450.00, 'REVENUE', 'Rendimentos', '2025-06-10'),
+('Uber para reunião', 45.50, 'EXPENSE', 'Transporte', '2025-06-11'),
+('Assinatura Netflix', 39.90, 'EXPENSE', 'Lazer', '2025-06-15'),
+('Supermercado', 680.40, 'EXPENSE', 'Alimentação', '2025-06-18'),
+('Venda de item usado', 180.00, 'REVENUE', 'Vendas', '2025-06-20'),
+('Camiseta nova', 120.00, 'EXPENSE', 'Vestuário', '2025-06-22'),
+('Salário mensal', 7200.00, 'REVENUE', 'Salário', '2025-05-05'),
+('Aluguel', 2100.00, 'EXPENSE', 'Moradia', '2025-05-06'),
+('Curso online de Java', 450.00, 'EXPENSE', 'Educação', '2025-05-09'),
+('Cinema', 80.00, 'EXPENSE', 'Lazer', '2025-05-12'),
+('Projeto Freelance Y', 3200.00, 'REVENUE', 'Freelance', '2025-05-15'),
+('Fatura do Cartão', 2500.00, 'EXPENSE', 'Contas', '2025-05-20'),
+('iFood', 75.80, 'EXPENSE', 'Alimentação', '2025-05-25'),
+('Salário mensal', 7000.00, 'REVENUE', 'Salário', '2025-04-05'),
+('Aluguel', 2100.00, 'EXPENSE', 'Moradia', '2025-04-06'),
+('Bônus Trimestral', 4500.00, 'REVENUE', 'Bônus', '2025-04-10'),
+('Passagem de avião', 1250.00, 'EXPENSE', 'Transporte', '2025-04-15'),
+('Show', 350.00, 'EXPENSE', 'Lazer', '2025-04-18'),
+('Supermercado', 920.00, 'EXPENSE', 'Alimentação', '2025-04-20'),
+('Salário mensal', 7000.00, 'REVENUE', 'Salário', '2025-03-05'),
+('Aluguel', 2000.00, 'EXPENSE', 'Moradia', '2025-03-06'),
+('Consulta médica', 300.00, 'EXPENSE', 'Saúde', '2025-03-11'),
+('Livro técnico', 180.50, 'EXPENSE', 'Educação', '2025-03-14'),
+('Projeto Freelance Z', 1800.00, 'REVENUE', 'Freelance', '2025-03-19'),
+('Salário mensal', 7000.00, 'REVENUE', 'Salário', '2025-02-05'),
+('Aluguel', 2000.00, 'EXPENSE', 'Moradia', '2025-02-06'),
+('Presente de aniversário', 250.00, 'EXPENSE', 'Lazer', '2025-02-14'),
+('Supermercado', 710.00, 'EXPENSE', 'Alimentação', '2025-02-20'),
+('Salário mensal', 7000.00, 'REVENUE', 'Salário', '2025-01-05'),
+('Aluguel', 2000.00, 'EXPENSE', 'Moradia', '2025-01-06'),
+('Fatura do Cartão', 1800.00, 'EXPENSE', 'Contas', '2025-01-20'),
+('Rendimento Poupança', 50.30, 'REVENUE', 'Rendimentos', '2024-12-31'),
+('Salário mensal', 6800.00, 'REVENUE', 'Salário', '2024-12-05'),
+('Ceia de Natal', 450.00, 'EXPENSE', 'Alimentação', '2024-12-24'),
+('Presentes de Natal', 800.00, 'EXPENSE', 'Lazer', '2024-12-20'),
+('Salário mensal', 6800.00, 'REVENUE', 'Salário', '2024-11-05'),
+('Black Friday', 950.00, 'EXPENSE', 'Vestuário', '2024-11-29'),
+('Aluguel', 2000.00, 'EXPENSE', 'Moradia', '2024-11-06'),
+('Salário mensal', 6800.00, 'REVENUE', 'Salário', '2024-10-05'),
+('Manutenção do carro', 600.00, 'EXPENSE', 'Transporte', '2024-10-15');
