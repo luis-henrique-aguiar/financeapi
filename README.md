@@ -152,3 +152,7 @@ Esta documentação detalha os endpoints disponíveis na MyFinanceAPI para geren
   * **Códigos de Resposta:**
       * `200 OK`: Resumo gerado com sucesso.
       * `500 Internal Server Error`: Erro interno no servidor ao calcular o resumo.
+
+## Vídeo de Demonstração
+
+  **[Assistir ao Vídeo de Demonstração](https://drive.google.com/file/d/1oaYQWYt9sehAqDBH6rmO2JLU8Fw8XrV_/view?usp=sharing)**
